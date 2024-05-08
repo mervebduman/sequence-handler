@@ -16,7 +16,7 @@ Human GRCh38 is used to create artificial db fastq files by ART.
 
 # Artificial db files
 ```shell
-./art_illumina -ss HS25 -i GRCh38_latest_genomic.fna -p -l 100 -f 50 -m 400 -s 20 -o example
+./art_illumina -ss HS25 -i GRCh38_latest_genomic.fna -p -l 100 -f 50 -m 400 -s 20 -rs 123 -na -o sequence-handler/db/example_
 ```
 https://academic.oup.com/bioinformatics/article/28/4/593/213322?login=false
 Art: A Next-Generation Sequencing Read Simulator
@@ -32,16 +32,14 @@ Art: A Next-Generation Sequencing Read Simulator
 - o example: Specify the output prefix for generated FASTQ files.
 
 # Use
-1. ```python scripts/create_db.py```
-2. ```python scripts/populate_db.py```
-3. ```sqlite3 seq_handler.db```
-4. 
-```
-.mode csv
-.output output.csv
-SELECT * FROM seq;
-.quit
-```
+1. ```poetry run sequencehandler -c```
+2. ```poetry run sequencehandler -p```
+3. ```spoetry run sequencehandler -o```
+4. ```poetry run sequencehandler -f```
+
+Set the threshold with ```poetry run sequencehandler -t {threshold}``` (optional).
+
+Default threshold is 51 because 24+24 are the length of flanking sequences. +3 is optional decision. If exact match is desired, than flanking sequences should be added to the query or removed from the database population then threshold should set to 0.
 
 # Levenshtein distance threshold
 The threshold defines the maximum allowable difference (measured by edit distance) between sequences for them to be considered similar. If the edit distance between a sequence from the input data and any sequence in the database is less than or equal to this threshold, the sequences are deemed similar and the input sequence is skipped to ensure uniqueness based on the specified level of variation.

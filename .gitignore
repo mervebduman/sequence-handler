@@ -1,9 +1,7 @@
 *.DS_Store
-db/example1_1.fq
-db/example1_2.fq
-db/example2_1.fq
-db/example2_2.fq
+db/example1.fq
+db/example2.fq
 db/GRCh38_latest_genomic.fna
-query/13H009_C4GEDACXX_L004_R1.fastq.gz
-query/13H009_C4GEDACXX_L004_R2.fastq.gz
 __pycache__
+db.csv
+seq_handler.db
