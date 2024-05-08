@@ -4,9 +4,6 @@ import os
 
 from Bio import SeqIO
 
-conn = sqlite3.connect('seq_handler.db')
-crsr = conn.cursor()
-
 # get fixed seqs
 def get_fixed_sequences():
     with open("config/fixed_sequences.yaml", 'r') as f:
@@ -14,8 +11,6 @@ def get_fixed_sequences():
         seq1 = file.get('seq1')
         seq2 = file.get('seq2')
     return seq1, seq2
-
-seq1, seq2 = get_fixed_sequences()
 
 # parse db files
 # note: for the sake of simplicity, I added temporary lines. Normally, they should be removed.
@@ -31,13 +26,20 @@ def parse_fastq_files():
                 yield record.id, (seq1+str(record.seq)+seq2)
                 count += 1 #temporary
 
-insert_query = """
+def populate_db():
+    conn = sqlite3.connect('seq_handler.db')
+    crsr = conn.cursor()
+
+    seq1, seq2 = get_fixed_sequences()
+
+    insert_query = """
     INSERT INTO seq (id, seq)
     VALUES (?, ?)
-"""
+    """
 
-crsr.executemany(insert_query, parse_fastq_files())
+    crsr.executemany(insert_query, parse_fastq_files())
 
-conn.commit()
+    conn.commit()
 
-conn.close()
+    conn.close()
+
