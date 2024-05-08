@@ -5,7 +5,7 @@ import csv
 import glob
 
 from functools import partial
-
+from Levenshtein import distance
 from Bio import SeqIO
 
 def parse_fastq_file(query_folder):
@@ -19,28 +19,33 @@ def parse_fastq_file(query_folder):
             for record in SeqIO.parse(handle, "fastq"):
                 yield str(record.seq)
 
-def filter_query(query_folder):
+# note: for the sake of simplicity, I added temporary lines. Normally, they should be removed.
+def filter_query(query_folder, threshold):
     conn = sqlite3.connect('seq_handler.db')
     crsr = conn.cursor()
 
-    unique_seqs = []
-
-    # note: for the sake of simplicity, I added temporary lines. Normally, they should be removed.
     count = 0 #temporary
-    for seq in parse_fastq_file(query_folder):
-        if count >= 10000: #temporary
-            break
-        if crsr.execute("SELECT * FROM seq WHERE seq NOT LIKE ?", (seq,)):
-            unique_seqs.append(seq)
-            count += 1 #temporary
+    with open("out/unique_seqs.csv", 'w', newline='') as file:
+        writer = csv.writer(file)
+
+        for seq in parse_fastq_file(query_folder):
+            if count >= 150: #temporary
+                break #temporary
+
+            # Check similarity with existing sequences in the database
+            similar = False
+            crsr.execute("SELECT seq FROM seq")
+            for (db_seq,) in crsr.fetchall():
+                if distance(seq, db_seq) <= threshold:
+                    similar = True
+                    break
+
+            if not similar:
+                writer.writerow([seq])
+                count += 1 #temporary
 
     crsr.close()
     conn.close()
 
-    with open("out/unique_seqs.csv", 'w', newline='') as file:
-        writer = csv.writer(file)
-        for seq in unique_seqs:
-            writer.writerow([seq])
-
-
-filter_query("query")
+edit_distance_threshold = 3
+filter_query("query", edit_distance_threshold)
