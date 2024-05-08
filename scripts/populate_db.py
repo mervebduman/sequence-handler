@@ -27,7 +27,7 @@ def parse_fastq_files():
         with open(file_path, "r") as handle:
             for record in SeqIO.parse(handle, "fastq"):
                 if count >= 10000: #temporary
-                    break
+                    break #temporary
                 yield record.id, (seq1+str(record.seq)+seq2)
                 count += 1 #temporary
 
