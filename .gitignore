@@ -1,4 +1,5 @@
 *.DS_Store
+dist/*
 db/example1.fq
 db/example2.fq
 db/GRCh38_latest_genomic.fna
