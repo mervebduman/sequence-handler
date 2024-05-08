@@ -42,3 +42,6 @@ Art: A Next-Generation Sequencing Read Simulator
 SELECT * FROM seq;
 .quit
 ```
+
+# Levenshtein distance threshold
+The threshold defines the maximum allowable difference (measured by edit distance) between sequences for them to be considered similar. If the edit distance between a sequence from the input data and any sequence in the database is less than or equal to this threshold, the sequences are deemed similar and the input sequence is skipped to ensure uniqueness based on the specified level of variation.
