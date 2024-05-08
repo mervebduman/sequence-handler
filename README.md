@@ -1,19 +1,11 @@
 # sequence-handler
 Builds a database containing sequences extracted from a collection of paired-end FASTQ files and then filters sequences from other FASTQ files based on this database.
 
-# query
-1. https://trace.ncbi.nlm.nih.gov/Traces/index.html?view=study&acc=SRP056295
-
-# fixed seq
-- https://community.nanoporetech.com/technical_documents/chemistry-technical-document/v/chtd_500_v1_revaq_07jul2016/barcode-sequences
-
-# Install
-https://www.postgresql.org/download/
-
-# Reference genome sequence
-Human GRCh38 is used to create artificial db fastq files by ART.
-- https://www.ncbi.nlm.nih.gov/genome/guide/human/
-
+# Database files
+Information:
+- An input folder containing potentially hundreds of pairs of FASTQ files for the database is required.
+- The overlap between paired-end reads is at least 200 base pairs, with amplicons being at least 400 base pairs long.
+- Input data may be mocked.
 # Artificial db files
 ```shell
 ./art_illumina -ss HS25 -i GRCh38_latest_genomic.fna -p -l 100 -f 50 -m 400 -s 20 -rs 123 -na -o sequence-handler/db/example_
@@ -30,6 +22,21 @@ Art: A Next-Generation Sequencing Read Simulator
 - na: Disable any alignment information in the output FASTQ files.
 - i reference: A Reference genome or sequence file.
 - o example: Specify the output prefix for generated FASTQ files.
+
+# query
+1. https://trace.ncbi.nlm.nih.gov/Traces/index.html?view=study&acc=SRP056295
+
+# fixed seq
+- https://community.nanoporetech.com/technical_documents/chemistry-technical-document/v/chtd_500_v1_revaq_07jul2016/barcode-sequences
+
+# Install
+https://www.postgresql.org/download/
+
+# Reference genome sequence
+Human GRCh38 is used to create artificial db fastq files by ART.
+- https://www.ncbi.nlm.nih.gov/genome/guide/human/
+
+
 
 # Use
 1. ```poetry run sequencehandler -c```
