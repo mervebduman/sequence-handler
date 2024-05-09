@@ -9,8 +9,31 @@ Simply create a database with ```-c, --createDB``` flag, then configure the fixe
 
 To filter queries against the database, run ```-f, --filterQuery```. You can set the Levenshtein edit distance threshold using ```-t, --threshold```. It outputs the unique sequences with a date and time stamp in ```out/``` folder as a csv file. To update the database with newly found unique sequences, chose the csv file that is output and run ```-u, --updateDB```.
 
-  
- # Information about the tool
+
+# How to use the tool
+## Installation and usage
+1. Install Poetry from its official website. (https://python-poetry.org/docs/)
+2. Clone this repository.
+3. Run ```poetry install``` and it will install the required packages in a separate environment.
+4. Run ```poetry shell``` to activate the environment.
+5. Run the commands as you wish. Initially, you should follow the order below.
+
+-  ```poetry run sequencehandler -c```
+-   ```poetry run sequencehandler -p```
+-  ```spoetry run sequencehandler -o```
+-  ```poetry run sequencehandler -f```
+- ```poetry run sequencehandler -u```
+
+If you would like to define the threshold, run ```poetry run sequencehandler -t {threshold}``` . Default is 51.
+
+**Note:**
+Default threshold is 51 because 24+24 is the length of flanking sequences. Plus 3 is an optional decision. If exact match is desired, then flanking sequences should be added to the query or removed from the database population, then threshold should set to 0.
+
+###  Levenshtein distance threshold
+
+The threshold defines the maximum allowable difference (measured by edit distance) between sequences for them to be considered similar. If the edit distance between a sequence from the input data and any sequence in the database is less than or equal to this threshold, the sequences are deemed similar and the input sequence is skipped to ensure uniqueness based on the specified level of variation.
+
+# Information about the tool
  
 ##  Database files
 
@@ -67,27 +90,3 @@ Query files are chosen to be human acute myeloid leukemia (AML) samples attribut
 
  https://trace.ncbi.nlm.nih.gov/Traces/index.html?view=study&acc=SRP056295
 
- 
-
-# How to use the tool
-## Installation and usage
-1. Install Poetry from its official website. (https://python-poetry.org/docs/)
-2. Clone this repository.
-3. Run ```poetry install``` and it will install the required packages in a separate environment.
-4. Run ```poetry shell``` to activate the environment.
-5. Run the commands as you wish. Initially, you should follow the order below.
-
--  ```poetry run sequencehandler -c```
--   ```poetry run sequencehandler -p```
--  ```spoetry run sequencehandler -o```
--  ```poetry run sequencehandler -f```
-- ```poetry run sequencehandler -u```
-
-If you would like to define the threshold, run ```poetry run sequencehandler -t {threshold}``` . Default is 51.
-
-**Note:**
-Default threshold is 51 because 24+24 is the length of flanking sequences. Plus 3 is an optional decision. If exact match is desired, then flanking sequences should be added to the query or removed from the database population, then threshold should set to 0.
-
-###  Levenshtein distance threshold
-
-The threshold defines the maximum allowable difference (measured by edit distance) between sequences for them to be considered similar. If the edit distance between a sequence from the input data and any sequence in the database is less than or equal to this threshold, the sequences are deemed similar and the input sequence is skipped to ensure uniqueness based on the specified level of variation.
