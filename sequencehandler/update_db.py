@@ -4,6 +4,8 @@ from logging import getLogger
 
 logger = getLogger(__name__)
 
+# This function is not tested thorougly!
+
 def update_db(db_file, csv_file):
     logger.info("Updating the database...")
     conn = sqlite3.connect(db_file)
