@@ -1,3 +1,17 @@
+# Table of Contents
+
+1. [sequence-handler](#sequence-handler)
+2. [How to use the tool](#how-to-use-the-tool)
+   - [Installation and usage](#installation-and-usage)
+     - [Levenshtein distance threshold](#levenshtein-distance-threshold)
+3. [Information about the tool](#information-about-the-tool)
+   - [Database files](#database-files)
+     - [Art: A Next-Generation Sequencing Read Simulator](#art-a-next-generation-sequencing-read-simulator)
+   - [Reference genome sequence](#reference-genome-sequence)
+   - [Fixed sequences](#fixed-sequences)
+   - [Query files](#query-files)
+
+---
 
 #  sequence-handler
 
@@ -37,6 +51,8 @@ The threshold defines the maximum allowable difference (measured by edit distanc
  
 ##  Database files
 
+### Art: A Next-Generation Sequencing Read Simulator
+
 ART-MountRainier-2016-06-05 (the latest version) is used to generate database files including the settings that the overlap between paired-end reads is at least 200 base pairs, with amplicons being at least 400 base pairs long.
 
 The code used to generate the data is below. Seed ```123``` is used to generate the data. If you run the same command, you will be able to generate the exact same data. 
@@ -69,8 +85,8 @@ Detailed explanation of the settings:
 
 - -o example: Specify the output prefix for generated FASTQ files.
 
- **Citation:**
- Art: A Next-Generation Sequencing Read Simulator
+**Citation:**
+Art: A Next-Generation Sequencing Read Simulator
 [Weichun Huang, Leping Li, Jason R Myers, and Gabor T Marth. ART: a next-generation sequencing read simulator, Bioinformatics (2012) 28 (4): 593-594](https://doi.org/10.1093/bioinformatics/btr708)
 
 ###  Reference genome sequence
@@ -88,5 +104,5 @@ https://community.nanoporetech.com/technical_documents/chemistry-technical-docum
 ##  Query files
 Query files are chosen to be human acute myeloid leukemia (AML) samples attributing to ***DKMS***'s mission. The files can be downloaded from the link below.
 
- https://trace.ncbi.nlm.nih.gov/Traces/index.html?view=study&acc=SRP056295
+https://trace.ncbi.nlm.nih.gov/Traces/index.html?view=study&acc=SRP056295
 
