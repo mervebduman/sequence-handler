@@ -10,6 +10,15 @@
    - [Reference genome sequence](#reference-genome-sequence)
    - [Fixed sequences](#fixed-sequences)
    - [Query files](#query-files)
+4. [My thinking process](#my-thinking-process)
+   - [Database](#database)
+     - [Database files](#database-files)
+     - [Flanking sequences](#flanking-sequences)
+     - [Database creation, population, and outputting](#database-creation-population-and-outputting)
+   - [Filtering](#filtering)
+   - [Updating the database](#updating-the-database)
+   - [Tests](#tests)
+   - [Error handling and logging](#error-handling-and-logging)
 
 ---
 
@@ -100,9 +109,39 @@ Fixed sequences are chosen from Nanopore's barcode sequences. Please refer to th
 
 https://community.nanoporetech.com/technical_documents/chemistry-technical-document/v/chtd_500_v1_revaq_07jul2016/barcode-sequences
 
-
 ##  Query files
 Query files are chosen to be human acute myeloid leukemia (AML) samples attributing to ***DKMS***'s mission. The files can be downloaded from the link below.
 
 https://trace.ncbi.nlm.nih.gov/Traces/index.html?view=study&acc=SRP056295
+
+# My thinking process
+Here, I copy paste my e-mail for a brief explanation of my work and thinking process.
+
+## Database
+### Database files
+I understood that I needed to create a database folder containing potentially hundreds of pairs of FASTQ files. I generated them by Art (A Next-Generation Sequencing Read Simulator) following the guideline that the overlap between paired-end reads is at least 200 base pairs, with amplicons being at least 400 base pairs long.
+
+### Flanking sequences
+I did not understand whether these samples were already barcoded or it was my responsibility to attach flanking sequences during the database creation. I assumed the first one but still went with the latter to show that I could program it. So, I created a config file where fixed sequences can be set. The tool fetches the sequences and attaches them at the ends of the database sequences. 
+
+### Database creation, population, and outputting
+![Populate db](https://github.com/mervebduman/sequence-handler/blob/main/res/populate_db.png?raw=true)
+I used sqlite3 for the sake of simplicity. I believe there better options for such a large database but I didn’t want to complicate things for a technical interview.  With “—createDB” flag, tool creates a database file and an empty table in that. Running “—populateDB” populates this database fetching the database files and flanking them. There is an option to output this sql database as csv. Simply run “—outputDB”. 
+
+## Filtering
+![Filtering queries](https://github.com/mervebduman/sequence-handler/blob/main/res/filter_query.png?raw=true)
+
+I understood that there should be an input folder where users can copy their pair-ended fastq files and search the database, output the unique and similar sequences. Therefore, I created a query folder. It doesn’t matter whether the files are zipped or unzipped, tool can handle it without specification. It runs through the database with a set edit distance threshold and finds unique sequences. Threshold can be set with “—threshold” flag. 
+
+Here, I didn’t have time to finish outputting similar sequences and their frequences, although I added a note in the script where I would include it (sequencehandler/filter_query.py line 48). 
+
+## Updating the database
+![Update db](https://github.com/mervebduman/sequence-handler/blob/main/res/update_db.png?raw=true)
+I quickly added a function to update the database, although I didn’t have time to thoroughly test it. It seems it works.
+
+## Tests
+I included tests initially, then I didn’t have time to update them as the function grew. I commented them out but let them stay there to show that I write tests.
+
+## Error handling and logging
+As you can see in the screenshots in the repository, I didn't forget to inform the user. I added date-time stamped information and error logs of the progress. 
 
